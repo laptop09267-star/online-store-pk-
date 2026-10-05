@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store PK Collection | Luxury Garments</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            950: '#002e26',
+                            900: '#004d40',
+                            800: '#00695c',
+                            700: '#00897b',
+                        },
+                        gold: {
+                            100: '#fff9e6',
+                            300: '#f3e5ab',
+                            400: '#e6ca65',
+                            500: '#d4af37',
+                            600: '#aa8c2c',
+                            700: '#80661c',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #001a15;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff3c4 0%, #d4af37 50%, #aa8c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .gold-border-glow:hover {
+            border-color: rgba(212, 175, 55, 0.8);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+        }
+
+        .gold-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #b89628 100%);
+            color: #002e26;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .gold-btn:hover {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .glass-panel {
+            background: rgba(0, 46, 38, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Keyframe animations */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .shimmer-effect {
+            background: linear-gradient(90deg, rgba(212,175,55,0) 0%, rgba(212,175,55,0.2) 50%, rgba(212,175,55,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 15px rgba(212,175,55,0.8)); }
+        }
+
+        .pulse-gold {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        /* Preloader Progress Bar Animation */
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .animate-progress {
+            animation: fillProgress 4.5s linear forwards;
+        }
+
+        /* Checkmark Draw Animation */
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+        @keyframes fill {
+            100% { box-shadow: inset 0px 0px 0px 30px #d4af37; }
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #d4af37;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #001a15;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-gold-500 selection:text-emerald-950">
+
+    <!-- 4.5 SECOND LUXURY GREEN & GOLD PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-emerald-950 transition-opacity duration-700">
+        <div class="text-center px-4">
+            <!-- Glowing Brand Logo -->
+            <div class="mb-6 inline-block pulse-gold">
+                <div class="w-24 h-24 rounded-full border-2 border-gold-500 flex items-center justify-center bg-emerald-900/50 shadow-2xl">
+                    <i class="fa-solid font-serif text-gold-500 text-4xl">PK</i>
+                </div>
+            </div>
+            
+            <h1 class="font-serif text-3xl md:text-5xl font-bold gold-gradient-text tracking-widest mb-2">
+                ONLINE STORE PK
+            </h1>
+            <p class="text-gold-300 tracking-widest text-xs md:text-sm uppercase mb-8">Exclusive Luxury Garments Collection</p>
+
+            <!-- Loading Bar Container -->
+            <div class="w-64 md:w-80 h-2 bg-emerald-900 rounded-full overflow-hidden border border-gold-500/30 p-0.5 mx-auto">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-gold-600 via-gold-400 to-gold-300 rounded-full animate-progress"></div>
+            </div>
+            <p class="text-gold-400/80 text-xs mt-3 font-mono tracking-wider">LOADING ELEGANCE...</p>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER (Hidden initially) -->
+    <div id="main-content" class="hidden">
+
+        <!-- HEADER & NAVIGATION -->
+        <header class="sticky top-0 z-40 glass-panel border-b border-gold-500/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <!-- Brand Logo -->
+                <a href="#" onclick="showPage('home')" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-full border border-gold-500 flex items-center justify-center bg-emerald-900 group-hover:scale-105 transition-transform">
+                        <span class="font-serif font-bold text-gold-500 text-lg">PK</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif font-bold text-lg md:text-xl text-gold-400 tracking-wider">ONLINE STORE PK</span>
+                        <span class="text-[10px] text-gold-300/70 uppercase tracking-widest -mt-1">Luxury Collection</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#home" onclick="showPage('home')" class="text-gold-300 hover:text-gold-400 transition-colors uppercase tracking-wider">Home</a>
+                    <a href="#collection" onclick="showPage('home'); document.getElementById('collection').scrollIntoView();" class="text-gold-300 hover:text-gold-400 transition-colors uppercase tracking-wider">Collection</a>
+                    <a href="#how-to-order" onclick="showPage('home'); document.getElementById('how-to-order').scrollIntoView();" class="text-gold-300 hover:text-gold-400 transition-colors uppercase tracking-wider">How to Order</a>
+                    <a href="#faq" onclick="showPage('home'); document.getElementById('faq').scrollIntoView();" class="text-gold-300 hover:text-gold-400 transition-colors uppercase tracking-wider">FAQ</a>
+                    <a href="#contact" onclick="showPage('home'); document.getElementById('contact').scrollIntoView();" class="text-gold-300 hover:text-gold-400 transition-colors uppercase tracking-wider">Contact</a>
+                </nav>
+
+                <!-- Action Buttons: Cart Trolley & Your Orders History -->
+                <div class="flex items-center space-x-3 md:space-x-4">
+                    <!-- Your Orders History Button -->
+                    <button onclick="showPage('orders')" class="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 text-xs md:text-sm font-semibold rounded-lg border border-gold-500/50 bg-emerald-900/60 text-gold-300 hover:bg-gold-500 hover:text-emerald-950 transition-all shadow-md">
+                        <i class="fa-solid fa-clock-rotate-left text-gold-400"></i>
+                        <span class="hidden sm:inline">Your</span> Orders History
+                    </button>
+
+                    <!-- Cart / Trolley Button -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-lg border border-gold-500/50 bg-emerald-900/60 text-gold-400 hover:bg-gold-500 hover:text-emerald-950 transition-all">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-2 -right-2 bg-gold-500 text-emerald-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-emerald-950">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gold-400 hover:text-gold-300">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Dropdown Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-gold-500/20 px-4 py-4 space-y-3">
+                <a href="#home" onclick="showPage('home'); toggleMobileMenu()" class="block text-gold-300 hover:text-gold-400 py-1 uppercase tracking-wider text-sm">Home</a>
+                <a href="#collection" onclick="showPage('home'); document.getElementById('collection').scrollIntoView(); toggleMobileMenu()" class="block text-gold-300 hover:text-gold-400 py-1 uppercase tracking-wider text-sm">Collection</a>
+                <a href="#how-to-order" onclick="showPage('home'); document.getElementById('how-to-order').scrollIntoView(); toggleMobileMenu()" class="block text-gold-300 hover:text-gold-400 py-1 uppercase tracking-wider text-sm">How to Order</a>
+                <a href="#faq" onclick="showPage('home'); document.getElementById('faq').scrollIntoView(); toggleMobileMenu()" class="block text-gold-300 hover:text-gold-400 py-1 uppercase tracking-wider text-sm">FAQ</a>
+                <a href="#contact" onclick="showPage('home'); document.getElementById('contact').scrollIntoView(); toggleMobileMenu()" class="block text-gold-300 hover:text-gold-400 py-1 uppercase tracking-wider text-sm">Contact</a>
+            </div>
+        </header>
+
+        <!-- Dynamic Main Views Holder -->
+        <main id="app-viewport">
+
+            <!-- VIEW 1: HOME PAGE -->
+            <div id="page-home" class="page-view">
+                
+                <!-- HERO BANNER SECTION -->
+                <section id="home" class="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 border-b border-gold-500/20">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid lg:grid-cols-2 gap-12 items-center">
+                            
+                            <!-- Left Banner Content -->
+                            <div class="space-y-6 text-center lg:text-left">
+                                <span class="inline-block px-4 py-1.5 rounded-full border border-gold-500/40 bg-gold-500/10 text-gold-400 text-xs tracking-widest uppercase font-semibold">
+                                    <i class="fa-solid fa-crown mr-2"></i>Royal Garments 2026 Edition
+                                </span>
+                                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+                                    Crafting Pure Elegance For <span class="gold-gradient-text">Royalty</span>
+                                </h1>
+                                <p class="text-gold-100/80 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                    Discover Online Store PK Collection. Handcrafted traditional and contemporary garments designed with lush fabrics, detailed hand embroidery, and premium gold finishes.
+                                </p>
+                                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                                    <a href="#collection" onclick="document.getElementById('collection').scrollIntoView();" class="gold-btn w-full sm:w-auto px-8 py-4 rounded-xl shadow-lg flex items-center justify-center space-x-3 text-emerald-950 uppercase tracking-wider text-sm">
+                                        <span>Explore Collection</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                    <button onclick="showPage('orders')" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold-500/60 bg-emerald-900/50 text-gold-300 hover:bg-gold-500/10 transition-all uppercase tracking-wider text-sm font-semibold">
+                                        Track Orders
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Right Luxury Hero Image Showcase -->
+                            <div class="relative flex justify-center">
+                                <div class="relative w-full max-w-md gold-border-glow rounded-3xl overflow-hidden shadow-2xl">
+                                    <img src="man jersey track suit.jpeg" alt="Royal Wedding Suit" class="w-full h-[480px] object-cover hover:scale-105 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-6 left-6 right-6 p-4 glass-panel rounded-2xl border border-gold-500/30">
+                                        <p class="text-xs text-gold-400 font-semibold uppercase tracking-wider">Featured Masterpiece</p>
+                                        <h3 class="font-serif text-lg font-bold text-white">Velvet Emerald Sherwani</h3>
+                                        <p class="text-sm text-gold-300 font-bold">PKR 46,000</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- COLLECTION PORTION (4 CARDS) -->
+                <section id="collection" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <span class="text-gold-400 text-xs font-semibold tracking-widest uppercase">Premium Garments</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mt-2">Exclusive Collection</h2>
+                        <div class="w-24 h-1 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+                    </div>
+
+                    <!-- Grid of 4 Cards -->
+                    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Dynamic JavaScript insertion for 4 products with See Details, Buy Now, Add to Cart buttons -->
+                    </div>
+                </section>
+
+                <!-- HOW TO ORDER SECTION -->
+                <section id="how-to-order" class="py-20 bg-emerald-950/80 border-y border-gold-500/20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center max-w-3xl mx-auto mb-16">
+                            <span class="text-gold-400 text-xs font-semibold tracking-widest uppercase">Simple Guide</span>
+                            <h2 class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mt-2">How To Order</h2>
+                            <p class="text-gold-100/70 text-sm mt-2">Ordering your dream royal outfit is fast and easy in 4 steps.</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-4 gap-8">
+                            <!-- Step 1 -->
+                            <div class="glass-panel p-6 rounded-2xl gold-border-glow text-center relative">
+                                <div class="w-14 h-14 bg-gold-500 text-emerald-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 font-serif">1</div>
+                                <h3 class="font-serif text-lg font-bold text-white mb-2">Select Dress</h3>
+                                <p class="text-xs text-gold-100/70">Browse collection cards & click "See Details" or "Buy Now".</p>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="glass-panel p-6 rounded-2xl gold-border-glow text-center relative">
+                                <div class="w-14 h-14 bg-gold-500 text-emerald-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 font-serif">2</div>
+                                <h3 class="font-serif text-lg font-bold text-white mb-2">Fill Details</h3>
+                                <p class="text-xs text-gold-100/70">Enter Name, City, Phone No, Quantity, & Address in Checkout.</p>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="glass-panel p-6 rounded-2xl gold-border-glow text-center relative">
+                                <div class="w-14 h-14 bg-gold-500 text-emerald-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 font-serif">3</div>
+                                <h3 class="font-serif text-lg font-bold text-white mb-2">Order Confirmed</h3>
+                                <p class="text-xs text-gold-100/70">Click "Place Order" with 5s animated verification sticker.</p>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="glass-panel p-6 rounded-2xl gold-border-glow text-center relative">
+                                <div class="w-14 h-14 bg-gold-500 text-emerald-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4 font-serif">4</div>
+                                <h3 class="font-serif text-lg font-bold text-white mb-2">Track Delivery</h3>
+                                <p class="text-xs text-gold-100/70">Track live order status countdown in "Your Orders History".</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FAQ SECTION -->
+                <section id="faq" class="py-20 max-w-4xl mx-auto px-4 sm:px-6">
+                    <div class="text-center mb-16">
+                        <span class="text-gold-400 text-xs font-semibold tracking-widest uppercase">Questions & Answers</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mt-2">Frequently Asked Questions</h2>
+                    </div>
+
+                    <div class="space-y-4" id="faq-accordion">
+                        <div class="glass-panel rounded-xl overflow-hidden border border-gold-500/20">
+                            <button onclick="toggleFaq(1)" class="w-full text-left p-5 text-gold-300 font-semibold flex justify-between items-center">
+                                <span>What is the estimated delivery time for orders?</span>
+                                <i id="faq-icon-1" class="fa-solid fa-chevron-down text-gold-400"></i>
+                            </button>
+                            <div id="faq-answer-1" class="hidden p-5 pt-0 text-sm text-emerald-100/80 border-t border-gold-500/10">
+                                All luxury garment orders are processed immediately. Standard nationwide delivery takes between 6-7 working days, with dynamic status updates right in your Order History.
+                            </div>
+                        </div>
+
+                        <div class="glass-panel rounded-xl overflow-hidden border border-gold-500/20">
+                            <button onclick="toggleFaq(2)" class="w-full text-left p-5 text-gold-300 font-semibold flex justify-between items-center">
+                                <span>Can I customize sizes or request custom measurements?</span>
+                                <i id="faq-icon-2" class="fa-solid fa-chevron-down text-gold-400"></i>
+                            </button>
+                            <div id="faq-answer-2" class="hidden p-5 pt-0 text-sm text-emerald-100/80 border-t border-gold-500/10">
+                                Yes! Once you place an order, our tailoring concierge will contact you on your given phone number to confirm exact fitting details.
+                            </div>
+                        </div>
+
+                        <div class="glass-panel rounded-xl overflow-hidden border border-gold-500/20">
+                            <button onclick="toggleFaq(3)" class="w-full text-left p-5 text-gold-300 font-semibold flex justify-between items-center">
+                                <span>What payment options are available?</span>
+                                <i id="faq-icon-3" class="fa-solid fa-chevron-down text-gold-400"></i>
+                            </button>
+                            <div id="faq-answer-3" class="hidden p-5 pt-0 text-sm text-emerald-100/80 border-t border-gold-500/10">
+                                We support Cash on Delivery (COD), JazzCash, EasyPaisa, and Bank Transfers across all cities in Pakistan.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTACT PORTION WITH FORMSPREE INTEGRATION -->
+                <section id="contact" class="py-20 bg-emerald-950/90 border-t border-gold-500/20">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                        <div class="text-center mb-12">
+                            <span class="text-gold-400 text-xs font-semibold tracking-widest uppercase">Get In Touch</span>
+                            <h2 class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mt-2">Contact Online Store PK</h2>
+                            <p class="text-gold-100/70 text-sm mt-2">Have inquiries regarding garments, custom fits or boutique orders?</p>
+                        </div>
+
+                        <form action="https://formspree.io/f/xbjnqpkz" method="POST" class="glass-panel p-8 rounded-2xl border border-gold-500/30 space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Your Name</label>
+                                    <input type="text" name="name" required placeholder="Full Name" class="w-full px-4 py-3 rounded-lg bg-emerald-900/60 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Phone / WhatsApp</label>
+                                    <input type="tel" name="phone" required placeholder="0300 1234567" class="w-full px-4 py-3 rounded-lg bg-emerald-900/60 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Email Address</label>
+                                <input type="email" name="_replyto" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-lg bg-emerald-900/60 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Message</label>
+                                <textarea name="message" rows="4" required placeholder="Write your inquiry here..." class="w-full px-4 py-3 rounded-lg bg-emerald-900/60 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500"></textarea>
+                            </div>
+
+                            <button type="submit" class="gold-btn w-full py-4 rounded-xl font-bold uppercase tracking-wider text-sm shadow-xl">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- VIEW 2: PRODUCT DETAILS PAGE (FULL DETAILED VIEW) -->
+            <div id="page-details" class="page-view hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <button onclick="showPage('home')" class="mb-8 flex items-center space-x-2 text-gold-400 hover:text-gold-300 font-semibold text-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Collection</span>
+                </button>
+
+                <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-500/30 grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Left Side: Product Image -->
+                    <div class="relative gold-border-glow rounded-2xl overflow-hidden group">
+                        <img id="detail-img" src="" alt="Product Image" class="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-gold-500 text-emerald-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                            Royal Premium
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Details & Actions -->
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-gold-400 text-xs font-semibold uppercase tracking-widest">Garment Details</span>
+                            <h1 id="detail-title" class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1"></h1>
+                            <p id="detail-price" class="text-2xl font-bold gold-gradient-text mt-3"></p>
+                        </div>
+
+                        <p id="detail-desc" class="text-gold-100/80 text-sm leading-relaxed"></p>
+
+                        <!-- Product Specs -->
+                        <div class="grid grid-cols-2 gap-4 py-4 border-y border-gold-500/20 text-xs text-gold-300">
+                            <div><i class="fa-solid fa-check text-gold-500 mr-2"></i>Fabric: Pure Royal Organza / Silk</div>
+                            <div><i class="fa-solid fa-check text-gold-500 mr-2"></i>Work: Hand Embroidered Zardozi</div>
+                            <div><i class="fa-solid fa-check text-gold-500 mr-2"></i>Fit: Custom Tailored Fit</div>
+                            <div><i class="fa-solid fa-check text-gold-500 mr-2"></i>Shipping: Nationwide Pakistan</div>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center space-x-4">
+                            <span class="text-xs font-semibold text-gold-300 uppercase tracking-wider">Select Quantity:</span>
+                            <div class="flex items-center border border-gold-500/40 rounded-lg overflow-hidden bg-emerald-900/60">
+                                <button onclick="changeDetailQty(-1)" class="px-3 py-1.5 text-gold-400 hover:bg-gold-500 hover:text-emerald-950 font-bold">-</button>
+                                <span id="detail-qty" class="px-4 py-1.5 font-bold text-white text-sm">1</span>
+                                <button onclick="changeDetailQty(1)" class="px-3 py-1.5 text-gold-400 hover:bg-gold-500 hover:text-emerald-950 font-bold">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="grid sm:grid-cols-2 gap-4 pt-4">
+                            <button id="detail-buy-now-btn" class="gold-btn py-4 rounded-xl font-bold uppercase tracking-wider text-sm">
+                                <i class="fa-solid fa-bolt mr-2"></i>Buy Now
+                            </button>
+                            <button id="detail-add-cart-btn" class="py-4 rounded-xl border border-gold-500 text-gold-300 bg-emerald-900/50 hover:bg-gold-500 hover:text-emerald-950 font-bold uppercase tracking-wider text-sm transition-all">
+                                <i class="fa-solid fa-cart-plus mr-2"></i>Add To Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: BUY NOW CHECKOUT FORM PAGE -->
+            <div id="page-checkout" class="page-view hidden py-12 max-w-3xl mx-auto px-4 sm:px-6">
+                <button onclick="showPage('home')" class="mb-6 flex items-center space-x-2 text-gold-400 hover:text-gold-300 font-semibold text-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Cancel & Return</span>
+                </button>
+
+                <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-gold-500/30">
+                    <div class="text-center mb-8">
+                        <span class="text-gold-400 text-xs font-semibold uppercase tracking-widest">Order Checkout</span>
+                        <h2 class="font-serif text-3xl font-bold gold-gradient-text mt-1">Customer Details</h2>
+                        <p class="text-xs text-gold-100/70 mt-1">Provide your shipping details to confirm order placement.</p>
+                    </div>
+
+                    <!-- Selected Product Summary Bar -->
+                    <div id="checkout-summary" class="mb-8 p-4 rounded-xl bg-emerald-900/60 border border-gold-500/20 flex items-center space-x-4">
+                        <!-- Filled dynamically -->
+                    </div>
+
+                    <form id="checkout-form" onsubmit="handlePlaceOrder(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Full Name :</label>
+                            <input type="text" id="cust-name" required placeholder="e.g. Muhammad Ali" class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">City :</label>
+                                <input type="text" id="cust-city" required placeholder="e.g. Lahore, Karachi, Islamabad" class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Phone No :</label>
+                                <input type="tel" id="cust-phone" required placeholder="03xx xxxxxxx" class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500">
+                            </div>
+                        </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Quantity :</label>
+                                <input type="number" id="cust-quantity" min="1" max="50" value="1" required class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white focus:outline-none focus:border-gold-500">
+                            </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Full Address :</label>
+                            <textarea id="cust-address" rows="3" required placeholder="House No, Street, Sector, Landmark..." class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white placeholder-emerald-600 focus:outline-none focus:border-gold-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="gold-btn w-full py-4 rounded-xl font-bold uppercase tracking-wider text-base shadow-xl mt-4">
+                            Place Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- VIEW 4: YOUR ORDERS HISTORY PAGE (24-HOUR INTERVAL TRACKER) -->
+            <div id="page-orders" class="page-view hidden py-12 max-w-5xl mx-auto px-4 sm:px-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <span class="text-gold-400 text-xs font-semibold uppercase tracking-widest">Real-time Delivery Tracker</span>
+                        <h1 class="font-serif text-3xl font-bold gold-gradient-text">Your Orders History</h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <button onclick="showPage('home')" class="px-4 py-2 rounded-lg border border-gold-500/40 text-gold-300 text-xs font-bold uppercase">
+                            Continue Shopping
+                        </button>
+                        <!-- Fast-forward simulation button for testing 24h delivery intervals -->
+                        <button onclick="simulateTimeSkip()" title="Simulate 24 Hours Passing" class="px-3 py-2 rounded-lg bg-gold-500/20 text-gold-400 border border-gold-500/40 text-xs font-bold hover:bg-gold-500 hover:text-emerald-950 transition-all flex items-center space-x-1">
+                            <i class="fa-solid fa-forward-step"></i>
+                            <span>Simulate +24h Step</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="orders-list-container" class="space-y-6">
+                    <!-- Dynamic Orders List populated from LocalStorage -->
+                </div>
+            </div>
+
+        </main>
+
+        <!-- CART TROLLEY DRAWER / SLIDE-OUT MODAL -->
+        <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+            <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="toggleCartDrawer()"></div>
+            
+            <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+                <div class="w-screen max-w-md glass-panel border-l border-gold-500/30 p-6 flex flex-col justify-between">
+                    
+                    <!-- Drawer Header -->
+                    <div class="flex items-center justify-between pb-6 border-b border-gold-500/20">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-cart-shopping text-gold-400 text-xl"></i>
+                            <h2 class="font-serif text-xl font-bold text-white">Your Trolley</h2>
+                        </div>
+                        <button onclick="toggleCartDrawer()" class="p-2 text-gold-400 hover:text-white">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Cart Items Container -->
+                    <div id="cart-items-list" class="flex-1 overflow-y-auto py-6 space-y-4">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <!-- Drawer Footer with Total & Proceed to Checkout -->
+                    <div class="pt-6 border-t border-gold-500/20 space-y-4">
+                        <div class="flex justify-between items-center text-lg font-bold">
+                            <span class="text-gold-300">Total Price:</span>
+                            <span id="cart-total-price" class="gold-gradient-text font-mono">PKR 0</span>
+                        </div>
+
+                        <button onclick="proceedCartToCheckout()" class="gold-btn w-full py-4 rounded-xl font-bold uppercase tracking-wider text-sm shadow-xl">
+                            Proceed To Checkout
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-SECOND ORDER PROCESSING MODAL WITH TICK STICKER -->
+        <div id="loading-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-gold-500/40 text-center max-w-md w-full mx-4 shadow-2xl">
+                
+                <!-- Spinner state -->
+                <div id="modal-spinner-state" class="space-y-6">
+                    <div class="w-20 h-20 border-4 border-gold-500/20 border-t-gold-500 rounded-full animate-spin mx-auto"></div>
+                    <h3 class="font-serif text-2xl font-bold text-white">Processing Order...</h3>
+                    <p class="text-xs text-gold-300 font-mono tracking-widest">PLEASE WAIT 5 SECONDS</p>
+                </div>
+
+                <!-- Success Tick State -->
+                <div id="modal-success-state" class="hidden space-y-6">
+                    <div class="w-20 h-20 rounded-full bg-gold-500/20 border-2 border-gold-500 flex items-center justify-center mx-auto shadow-2xl">
+                        <svg class="w-12 h-12" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="23" />
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold gold-gradient-text">Order Placed Successfully!</h3>
+                    <p class="text-xs text-gold-100/80">Your order has been logged into your Orders History.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="bg-emerald-950 border-t border-gold-500/20 py-12 text-center text-xs text-gold-300/70">
+            <div class="max-w-7xl mx-auto px-4 space-y-4">
+                <div class="font-serif text-lg text-gold-400 font-bold tracking-widest">ONLINE STORE PK COLLECTION</div>
+                <p>© 2026 Online Store PK. All Rights Reserved. Crafted with Royal Green & Gold Theme.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION CONTROLLER -->
+    <script>
+        // 4 LUXURY GARMENT PRODUCTS DATA
+        const PRODUCTS = [
+            {
+                id: 'prod-1',
+                title: 'Man Jersey Track Suit ',
+                price: 1399,
+                priceFormatted: 'PKR 1399',
+                image: 'man jersey track suit.jpeg',
+                description: 'Mens Black Graphic Hoodie & Pants set Casual Sporty.'
+            },
+            {
+                id: 'prod-2',
+                title: 'Janan Gold Edition',
+                price: 999,
+                priceFormatted: 'PKR 999',
+                image: 'janan gold edition.jpeg',
+                description: 'Janan Gold perfume from j. for Men .'
+            },
+            {
+                id: 'prod-3',
+                title: 'Tubuler Watch',
+                price: 2799,
+                priceFormatted: 'PKR 2,799',
+                image: 'tubler watch.jpeg',
+                description: 'tubuler premium and fashion watch.'
+            },
+            
+            {
+                id: 'prod-4',
+                title: 'BMW Track Suit White And Black Combination',
+                price: 1899,
+                priceFormatted: 'PKR 1,899',
+                image: 'bmw shirt.jpeg',
+                description: 'Stylish Black And White BMW inspired T-shirt and trouser.'
+            },
+            {
+                id: 'prod-5',
+                title: 'Janan Platinum',
+                price: 1649,
+                priceFormatted: 'PKR 1,649',
+                image: 'janan platinum.jpeg',
+                description: 'Modern Citrus Spicy And Insane Mens Perfume.'
+            },
+            {
+                id: 'prod-6',
+                title: 'Two Pc Mens Trcak Suit Set',
+                price: 1399,
+                priceFormatted: 'PKR 1,399',
+                image: 'pubg track suit.jpeg',
+                description: 'Modern Two Pc Mens Trcak Suit Set.'
+            },
+             {
+                id: 'prod-7',
+                title: 'BTS Track Suit',
+                price: 1399,
+                priceFormatted: 'PKR 1,399',
+                image: 'bts track suit.jpeg',
+                description: 'BTS Green Track Suit Set.'
+            },
+             {
+                id: 'prod-8',
+                title: 'Men control printed suit',
+                price: 1399,
+                priceFormatted: 'PKR 1,399',
+                image: 'control.jpeg',
+                description: 'Premium Men Control Printed Suit.'
+            }
+        ];
+
+        // Global State Variables
+        let cart = JSON.parse(localStorage.getItem('pk_store_cart') || '[]');
+        let orders = JSON.parse(localStorage.getItem('pk_store_orders') || '[]');
+        let activeSelectedProduct = null;
+        let detailQuantityVal = 1;
+        let timeOffsetHours = parseInt(localStorage.getItem('pk_time_offset_hours') || '0');
+
+        // INITIALIZE APP ON PAGE LOAD
+        window.addEventListener('load', () => {
+            // 4.5 Seconds Preloader delay
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                const mainContent = document.getElementById('main-content');
+                
+                preloader.classList.add('opacity-0');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    renderProducts();
+                    updateCartBadge();
+                }, 700);
+            }, 4500);
+        });
+
+        // RENDER 4 COLLECTION CARDS
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = PRODUCTS.map(prod => `
+                <div class="glass-panel rounded-2xl overflow-hidden gold-border-glow flex flex-col justify-between group">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent opacity-80"></div>
+                        <span class="absolute top-3 right-3 bg-emerald-900/90 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                            In Stock
+                        </span>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-white group-hover:text-gold-400 transition-colors line-clamp-1">${prod.title}</h3>
+                            <p class="text-gold-400 font-bold font-mono text-base mt-1">${prod.priceFormatted}</p>
+                            <p class="text-gold-100/70 text-xs mt-2 line-clamp-2">${prod.description}</p>
+                        </div>
+
+                        <!-- 3 MANDATORY BUTTONS PER CARD -->
+                        <div class="space-y-2 pt-2 border-t border-gold-500/20">
+                            <!-- Button 1: See Details -->
+                            <button onclick="openProductDetails('${prod.id}')" class="w-full py-2.5 rounded-lg border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-emerald-950 font-bold text-xs uppercase transition-all">
+                                <i class="fa-solid fa-eye mr-1"></i> See Details
+                            </button>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <!-- Button 2: Buy Now -->
+                                <button onclick="triggerBuyNow('${prod.id}')" class="gold-btn py-2.5 rounded-lg font-bold text-xs uppercase shadow-md">
+                                    Buy Now
+                                </button>
+                                <!-- Button 3: Add to Cart -->
+                                <button onclick="addToCart('${prod.id}')" class="py-2.5 rounded-lg border border-gold-500/60 bg-emerald-900/80 text-gold-300 hover:bg-gold-500/20 font-bold text-xs uppercase transition-all">
+                                    Add To Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // NAVIGATION VIEW SWITCHER
+        function showPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`page-${pageId}`);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (pageId === 'orders') {
+                renderOrdersHistory();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // SEE DETAILS PAGE ACTION
+        function openProductDetails(prodId) {
+            const product = PRODUCTS.find(p => p.id === prodId);
+            if (!product) return;
+            activeSelectedProduct = product;
+            detailQuantityVal = 1;
+
+            document.getElementById('detail-img').src = product.image;
+            document.getElementById('detail-title').innerText = product.title;
+            document.getElementById('detail-price').innerText = product.priceFormatted;
+            document.getElementById('detail-desc').innerText = product.description;
+            document.getElementById('detail-qty').innerText = detailQuantityVal;
+
+            document.getElementById('detail-buy-now-btn').onclick = () => triggerBuyNow(product.id, detailQuantityVal);
+            document.getElementById('detail-add-cart-btn').onclick = () => addToCart(product.id, detailQuantityVal);
+
+            showPage('details');
+        }
+
+        function changeDetailQty(change) {
+            detailQuantityVal = Math.max(1, detailQuantityVal + change);
+            document.getElementById('detail-qty').innerText = detailQuantityVal;
+        }
+
+        // BUY NOW TRIGGER
+        function triggerBuyNow(prodId, qty = 1) {
+            const product = PRODUCTS.find(p => p.id === prodId);
+            if (!product) return;
+
+            activeSelectedProduct = { ...product, orderQty: qty };
+
+            // Fill summary in checkout
+            document.getElementById('checkout-summary').innerHTML = `
+                <img src="${product.image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm">${product.title}</h4>
+                    <p class="text-xs text-gold-400 font-mono font-bold">${product.priceFormatted} × ${qty}</p>
+                </div>
+            `;
+            document.getElementById('cust-quantity').value = qty;
+
+            showPage('checkout');
+        }
+
+        // CART FUNCTIONS
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                renderCartItems();
+            }
+        }
+
+        function addToCart(prodId, qty = 1) {
+            const product = PRODUCTS.find(p => p.id === prodId);
+            if (!product) return;
+
+            const existingIndex = cart.findIndex(item => item.id === prodId);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += qty;
+            } else {
+                cart.push({ ...product, quantity: qty });
+            }
+
+            saveCart();
+            updateCartBadge();
+            
+            // Visual feedback indicator
+            const btn = event.currentTarget;
+            if(btn) {
+                const origText = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check text-gold-400"></i> Added`;
+                setTimeout(() => btn.innerHTML = origText, 1200);
+            }
+        }
+
+        function changeCartQty(index, change) {
+            if (cart[index]) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                saveCart();
+                renderCartItems();
+                updateCartBadge();
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-list');
+            const totalEl = document.getElementById('cart-total-price');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gold-100/50 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-gold-500/30"></i>
+                        <p class="text-sm">Your Trolley is empty</p>
+                    </div>
+                `;
+                totalEl.innerText = 'PKR 0';
+                return;
+            }
+
+            let grandTotal = 0;
+            container.innerHTML = cart.map((item, idx) => {
+                const itemTotal = item.price * item.quantity;
+                grandTotal += itemTotal;
+                return `
+                    <div class="glass-panel p-4 rounded-xl border border-gold-500/20 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">
+                            <div>
+                                <h4 class="font-serif font-bold text-white text-xs line-clamp-1">${item.title}</h4>
+                                <p class="text-gold-400 font-mono text-xs font-bold">PKR ${itemTotal.toLocaleString()}</p>
+                            </div>
+                        </div>
+
+                        <!-- Add/Subtract (+/-) buttons -->
+                        <div class="flex items-center space-x-2 border border-gold-500/40 rounded-lg overflow-hidden bg-emerald-900/60">
+                            <button onclick="changeCartQty(${idx}, -1)" class="px-2.5 py-1 text-gold-400 font-bold hover:bg-gold-500 hover:text-emerald-950">-</button>
+                            <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+                            <button onclick="changeCartQty(${idx}, 1)" class="px-2.5 py-1 text-gold-400 font-bold hover:bg-gold-500 hover:text-emerald-950">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.innerText = `PKR ${grandTotal.toLocaleString()}`;
+        }
+
+        function proceedCartToCheckout() {
+            if (cart.length === 0) {
+                alert('Your Trolley is empty!');
+                return;
+            }
+            toggleCartDrawer();
+
+            // Set cart items as current checkout payload
+            activeSelectedProduct = {
+                id: 'cart-checkout',
+                title: `${cart.length} Garment Items in Trolley`,
+                priceFormatted: document.getElementById('cart-total-price').innerText,
+                image: cart[0].image,
+                isCartCheckout: true
+            };
+
+            document.getElementById('checkout-summary').innerHTML = `
+                <img src="${cart[0].image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
+                <div>
+                    <h4 class="font-serif font-bold text-white text-sm">Cart Order (${cart.length} unique items)</h4>
+                    <p class="text-xs text-gold-400 font-mono font-bold">${document.getElementById('cart-total-price').innerText}</p>
+                </div>
+            `;
+            showPage('checkout');
+        }
+
+        function saveCart() {
+            localStorage.setItem('pk_store_cart', JSON.stringify(cart));
+        }
+
+        function updateCartBadge() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-badge').innerText = totalCount;
+        }
+
+        // PLACE ORDER WITH 5-SECOND ANIMATED LOADING
+        function handlePlaceOrder(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('cust-name').value;
+            const city = document.getElementById('cust-city').value;
+            const phone = document.getElementById('cust-phone').value;
+            const qty = parseInt(document.getElementById('cust-quantity').value) || 1;
+            const address = document.getElementById('cust-address').value;
+
+            const modal = document.getElementById('loading-modal');
+            const spinnerState = document.getElementById('modal-spinner-state');
+            const successState = document.getElementById('modal-success-state');
+
+            // Show Loading Modal
+            modal.classList.remove('hidden');
+            spinnerState.classList.remove('hidden');
+            successState.classList.add('hidden');
+
+            // 5 Seconds Timer Process
+            setTimeout(() => {
+                spinnerState.classList.add('hidden');
+                successState.classList.remove('hidden');
+
+                // Create Order Object with Timestamp
+                const newOrder = {
+                    id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+                    items: activeSelectedProduct && activeSelectedProduct.isCartCheckout ? [...cart] : [{
+                        title: activeSelectedProduct ? activeSelectedProduct.title : 'Luxury Garment',
+                        image: activeSelectedProduct ? activeSelectedProduct.image : '',
+                        priceFormatted: activeSelectedProduct ? activeSelectedProduct.priceFormatted : 'PKR 0',
+                        quantity: qty
+                    }],
+                    customer: { name, city, phone, address },
+                    timestamp: Date.now()
+                };
+
+                orders.unshift(newOrder);
+                localStorage.setItem('pk_store_orders', JSON.stringify(orders));
+
+                // Clear cart if it was a cart checkout
+                if (activeSelectedProduct && activeSelectedProduct.isCartCheckout) {
+                    cart = [];
+                    saveCart();
+                    updateCartBadge();
+                }
+
+                // Redirect to Home Page after sticker display
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('checkout-form').reset();
+                    showPage('home');
+                }, 2000);
+
+            }, 5000);
+        }
+
+        // DYNAMIC DELIVERY TRACKER (24-Hour Interval Logic)
+        function getDeliveryStatus(orderTimestamp) {
+            // Apply simulated hours offset if testing
+            const effectiveTimestamp = orderTimestamp - (timeOffsetHours * 3600 * 1000);
+            const hoursPassed = (Date.now() - effectiveTimestamp) / (1000 * 3600);
+
+            if (hoursPassed < 24) {
+                return { statusText: 'Your order delivered 6-7 days', color: 'text-gold-400', isDelivered: false };
+            } else if (hoursPassed < 48) {
+                return { statusText: 'Your order delivered 5-6 days', color: 'text-gold-400', isDelivered: false };
+            } else if (hoursPassed < 72) {
+                return { statusText: 'Your order delivered 4-5 days', color: 'text-gold-400', isDelivered: false };
+            } else if (hoursPassed < 96) {
+                return { statusText: 'Your order delivered 3-4 days', color: 'text-gold-400', isDelivered: false };
+            } else if (hoursPassed < 120) {
+                return { statusText: 'Your order delivered 1-2 days', color: 'text-amber-400', isDelivered: false };
+            } else if (hoursPassed < 144) {
+                return { statusText: 'Soon', color: 'text-emerald-400 font-bold', isDelivered: false };
+            } else {
+                // Auto-delivered & removed condition
+                return { statusText: 'Delivered', color: 'text-emerald-500', isDelivered: true };
+            }
+        }
+
+        function renderOrdersHistory() {
+            const container = document.getElementById('orders-list-container');
+            
+            // Filter out fully delivered (>144 hours) orders
+            const activeOrders = orders.filter(ord => {
+                const status = getDeliveryStatus(ord.timestamp);
+                return !status.isDelivered;
+            });
+
+            if (activeOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-panel p-12 rounded-3xl text-center text-gold-100/60 border border-gold-500/20">
+                        <i class="fa-solid fa-box-open text-5xl text-gold-500/30 mb-4"></i>
+                        <h3 class="font-serif text-xl font-bold text-white">No Active Orders</h3>
+                        <p class="text-xs text-gold-300 mt-1">Your recent orders and delivery status updates will appear here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = activeOrders.map(ord => {
+                const status = getDeliveryStatus(ord.timestamp);
+                return `
+                    <div class="glass-panel p-6 rounded-2xl border border-gold-500/30 space-y-4 gold-border-glow">
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-gold-500/20 pb-4 gap-2">
+                            <div>
+                                <span class="text-[10px] font-mono text-gold-400/80">ORDER ID: ${ord.id}</span>
+                                <h3 class="font-serif font-bold text-lg text-white">Customer: ${ord.customer.name} (${ord.customer.city})</h3>
+                            </div>
+                            <div class="inline-block px-4 py-1.5 rounded-full bg-emerald-900 border border-gold-500/40 text-xs font-semibold ${status.color}">
+                                <i class="fa-solid fa-truck-fast mr-2"></i>${status.statusText}
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            ${ord.items.map(item => `
+                                <div class="flex items-center space-x-4">
+                                    <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg border border-gold-500/30">
+                                    <div>
+                                        <h4 class="font-serif text-sm font-bold text-gold-100">${item.title}</h4>
+                                        <p class="text-xs text-gold-400 font-mono">${item.priceFormatted} (Qty: ${item.quantity || 1})</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="text-[11px] text-gold-100/60 pt-2 border-t border-gold-500/10 flex justify-between">
+                            <span>Address: ${ord.customer.address}</span>
+                            <span>Phone: ${ord.customer.phone}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // SIMULATION FOR TESTING DELIVER INTERVAL (Fast forward time)
+        function simulateTimeSkip() {
+            timeOffsetHours += 24;
+            localStorage.setItem('pk_time_offset_hours', timeOffsetHours);
+            renderOrdersHistory();
+        }
+
+        // FAQ ACCORDION TOGGLE
+        function toggleFaq(index) {
+            const answer = document.getElementById(`faq-answer-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (answer.classList.contains('hidden')) {
+                answer.classList.remove('hidden');
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                answer.classList.add('hidden');
+                icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        }
+    </script>
+</body>
+</html>
