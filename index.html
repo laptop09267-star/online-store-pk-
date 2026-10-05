@@ -106,6 +106,10 @@
             animation: pulseGlow 2.5s infinite ease-in-out;
         }
 
+        /* Size Selector */
+        .size-option { transition: all 0.2s ease; }
+        .size-option.selected { background:#d4af37; color:#002e26; border-color:#d4af37; box-shadow:0 0 12px rgba(212,175,55,0.35); }
+
         /* Preloader Progress Bar Animation */
         @keyframes fillProgress {
             0% { width: 0%; }
@@ -156,6 +160,81 @@
             background: #d4af37;
             border-radius: 4px;
         }
+
+        /* SIZE CHART MODAL */
+.size-chart-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.size-chart-modal.active {
+    display: flex;
+}
+
+.size-chart-box {
+    position: relative;
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    overflow: auto;
+    background: #002e26;
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.25);
+}
+
+.size-chart-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+.size-chart-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #d4af37;
+    background: #002e26;
+    color: #d4af37;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.size-chart-close:hover {
+    background: #d4af37;
+    color: #002e26;
+}
+
+.size-chart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #d4af37;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+}
+
+.size-chart-btn:hover {
+    color: #fff3c4;
+    transform: translateX(2px);
+}
     </style>
 </head>
 <body class="relative min-h-screen selection:bg-gold-500 selection:text-emerald-950">
@@ -281,9 +360,9 @@
                                     <img src="man jersey track suit.jpeg" alt="Royal Wedding Suit" class="w-full h-[480px] object-cover hover:scale-105 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent"></div>
                                     <div class="absolute bottom-6 left-6 right-6 p-4 glass-panel rounded-2xl border border-gold-500/30">
-                                        <p class="text-xs text-gold-400 font-semibold uppercase tracking-wider">Featured Masterpiece</p>
-                                        <h3 class="font-serif text-lg font-bold text-white">Velvet Emerald Sherwani</h3>
-                                        <p class="text-sm text-gold-300 font-bold">PKR 46,000</p>
+                                        <p class="text-xs text-gold-400 font-semibold uppercase tracking-wider"></p>
+                                        <h3 class="font-serif text-lg font-bold text-white"></h3>
+                                        <p class="text-sm text-gold-300 font-bold">FAST SELLING PRODUCT</p>
                                     </div>
                                 </div>
                             </div>
@@ -393,7 +472,7 @@
                             <p class="text-gold-100/70 text-sm mt-2">Have inquiries regarding garments, custom fits or boutique orders?</p>
                         </div>
 
-                        <form action="https://formspree.io/f/xbjnqpkz" method="POST" class="glass-panel p-8 rounded-2xl border border-gold-500/30 space-y-6">
+                        <form action="https://formspree.io/f/mdeaoeeb" method="POST" class="glass-panel p-8 rounded-2xl border border-gold-500/30 space-y-6">
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Your Name</label>
@@ -468,6 +547,22 @@
                             </div>
                         </div>
 
+                        <!-- Size Selector -->
+                        <div class="space-y-3 pt-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-semibold text-gold-300 uppercase tracking-wider">Select Size:</span>
+                                <span id="detail-selected-size" class="text-xs font-bold text-gold-400">Not Selected</span>
+                            </div>
+                            <div id="detail-size-options" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <!-- SIZE CHART BUTTON -->
+<div class="pt-1">
+    <button type="button" onclick="openSizeChart()" class="size-chart-btn">
+        <i class="fa-solid fa-ruler"></i>
+        <span>Size Chart</span>
+    </button>
+</div>
+
                         <!-- Action Buttons -->
                         <div class="grid sm:grid-cols-2 gap-4 pt-4">
                             <button id="detail-buy-now-btn" class="gold-btn py-4 rounded-xl font-bold uppercase tracking-wider text-sm">
@@ -517,8 +612,16 @@
                             </div>
                         </div>
 
-                            <div>
-                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Quantity :</label>
+                        <div id="checkout-size-section">
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider">Size :</label>
+                                <span id="checkout-selected-size" class="text-xs font-bold text-gold-400">Not Selected</span>
+                            </div>
+                            <div id="checkout-size-options" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Quantity :</label>
                                 <input type="number" id="cust-quantity" min="1" max="50" value="1" required class="w-full px-4 py-3 rounded-lg bg-emerald-900/80 border border-gold-500/30 text-white focus:outline-none focus:border-gold-500">
                             </div>
 
@@ -560,6 +663,18 @@
             </div>
 
         </main>
+        <!-- SIZE CHART MODAL -->
+<div id="size-chart-modal" class="size-chart-modal" onclick="closeSizeChart(event)">
+    <div class="size-chart-box"
+        
+        <button type="button" onclick="closeSizeChart()" class="size-chart-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <img src="size chart.jpeg" alt="Shirt Size Chart">
+
+    </div>
+</div>
 
         <!-- CART TROLLEY DRAWER / SLIDE-OUT MODAL -->
         <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
@@ -689,8 +804,16 @@
                 image: 'pubg track suit.jpeg',
                 description: 'Modern Two Pc Mens Trcak Suit Set.'
             },
-             {
+            {
                 id: 'prod-7',
+                title: 'Men Flame Print Track Suit',
+                price: 1699,
+                priceFormatted: 'PKR 1,699',
+                image: 'flame.jpeg',
+                description: 'Men Flame Print Track Suit Blue .'
+            },
+             {
+                id: 'prod-8',
                 title: 'BTS Track Suit',
                 price: 1399,
                 priceFormatted: 'PKR 1,399',
@@ -698,13 +821,49 @@
                 description: 'BTS Green Track Suit Set.'
             },
              {
-                id: 'prod-8',
+                id: 'prod-9',
                 title: 'Men control printed suit',
                 price: 1399,
                 priceFormatted: 'PKR 1,399',
                 image: 'control.jpeg',
                 description: 'Premium Men Control Printed Suit.'
+            },
+            {
+                id: 'prod-10',
+                title: 'Mens Black Hoodie & pants',
+                price: 2299,
+                priceFormatted: 'PKR 2,299',
+                image: 'card9-1.jpg',
+                images: ['vision.jpeg', 'cat.jpeg', 'naruto.jpeg', 'bacha.jpeg'],
+                description: 'Men Black Hoodie & pants Set Casual Sporty.'
+            },
+            {
+                id: 'prod-11',
+                title: 'Black Hoodie',
+                price: 369,
+                priceFormatted: 'PKR 369',
+                image: 'card10-1.jpg',
+                images: ['s1.jpeg', 's2.jpeg', 's3.jpeg'],
+                description: 'Men Black Graphic Hoodie & Pant Set Casual Sporty.'
+            },
+            {
+                id: 'prod-12',
+                title: 'Fleece Zipper',
+                price: 1600,
+                priceFormatted: 'PKR 1,600',
+                image: 'zipper.jpeg',
+                description: 'Men Black & White Printed Fleece Zipper Jacket.'
+            },
+            {
+                id: 'prod-13',
+                title: 'Waflle Track Suit',
+                price: 2799,
+                priceFormatted: 'PKR 2,799',
+                image: 'card11-1.jpg',
+                images: ['belive1.jpeg', 'belive2.jpeg', 'belive3.jpeg', 'belive4.jpeg','belive5.jpeg','belive6.jpeg','belive7.jpeg'],
+                description: 'Men Waflle Long Sleeve Track Suit.'
             }
+           
         ];
 
         // Global State Variables
@@ -713,6 +872,9 @@
         let activeSelectedProduct = null;
         let detailQuantityVal = 1;
         let timeOffsetHours = parseInt(localStorage.getItem('pk_time_offset_hours') || '0');
+        let selectedProductImages = {};
+        const SIZE_OPTIONS = ['S', 'M', 'L', 'XL', 'XXL'];
+        const selectedProductSizes = {};
 
         // INITIALIZE APP ON PAGE LOAD
         window.addEventListener('load', () => {
@@ -731,15 +893,38 @@
             }, 4500);
         });
 
-        // RENDER 4 COLLECTION CARDS
+        // RENDER COLLECTION CARDS
         function renderProducts() {
             const grid = document.getElementById('products-grid');
-            grid.innerHTML = PRODUCTS.map(prod => `
+            grid.innerHTML = PRODUCTS.map(prod => {
+                const productImages = prod.images || [prod.image];
+                const hasSlider = productImages.length > 1;
+
+                if (productSlideIndexes[prod.id] === undefined) {
+                    productSlideIndexes[prod.id] = 0;
+                }
+
+                return `
                 <div class="glass-panel rounded-2xl overflow-hidden gold-border-glow flex flex-col justify-between group">
-                    <div class="relative overflow-hidden h-72">
-                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent opacity-80"></div>
-                        <span class="absolute top-3 right-3 bg-emerald-900/90 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                    <div class="relative overflow-hidden h-72" data-slider="${prod.id}">
+                        <img id="product-image-${prod.id}" src="${productImages[0]}" alt="${prod.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+
+                        ${hasSlider ? `
+                        <button onclick="changeProductSlide('${prod.id}', -1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-emerald-950/80 border border-gold-500/60 text-gold-400 hover:bg-gold-500 hover:text-emerald-950 transition-all z-10">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeProductSlide('${prod.id}', 1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-emerald-950/80 border border-gold-500/60 text-gold-400 hover:bg-gold-500 hover:text-emerald-950 transition-all z-10">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <div id="product-dots-${prod.id}" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                            ${productImages.map((_, index) => `
+                                <button onclick="setProductSlide('${prod.id}', ${index})" class="w-2 h-2 rounded-full ${index === 0 ? 'bg-gold-400' : 'bg-white/50'} transition-all"></button>
+                            `).join('')}
+                        </div>
+                        ` : ''}
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                        <span class="absolute top-3 right-3 bg-emerald-900/90 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase z-10">
                             In Stock
                         </span>
                     </div>
@@ -749,6 +934,19 @@
                             <h3 class="font-serif font-bold text-lg text-white group-hover:text-gold-400 transition-colors line-clamp-1">${prod.title}</h3>
                             <p class="text-gold-400 font-bold font-mono text-base mt-1">${prod.priceFormatted}</p>
                             <p class="text-gold-100/70 text-xs mt-2 line-clamp-2">${prod.description}</p>
+                        </div>
+
+                        <!-- SIZE SELECTOR -->
+                        <div class="pt-2">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-semibold text-gold-300 uppercase tracking-wider">Select Size:</span>
+                                <span id="card-size-label-${prod.id}" class="text-[10px] font-bold text-gold-400">${selectedProductSizes[prod.id] ? `Size: ${selectedProductSizes[prod.id]}` : 'Not Selected'}</span>
+                            </div>
+                            <div id="card-size-options-${prod.id}" class="flex flex-wrap gap-1.5">
+                                ${SIZE_OPTIONS.map(size => `
+                                    <button type="button" onclick="setProductSize('${prod.id}', '${size}', 'card')" class="size-option px-2.5 py-1 rounded-md border border-gold-500/40 bg-emerald-900/60 text-gold-300 text-[10px] font-bold hover:bg-gold-500 hover:text-emerald-950 ${selectedProductSizes[prod.id] === size ? 'selected' : ''}">${size}</button>
+                                `).join('')}
+                            </div>
                         </div>
 
                         <!-- 3 MANDATORY BUTTONS PER CARD -->
@@ -771,8 +969,38 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
+
+        // MULTI-IMAGE SLIDER FOR CARDS 9-12
+        const productSlideIndexes = {};
+
+        const setProductSlide = (prodId, index) => {
+            const product = PRODUCTS.find(p => p.id === prodId);
+            if (!product || !product.images || product.images.length < 2) return;
+
+            const total = product.images.length;
+            productSlideIndexes[prodId] = ((index % total) + total) % total;
+
+            const image = document.getElementById(`product-image-${prodId}`);
+            if (image) {
+                image.src = product.images[productSlideIndexes[prodId]];
+            }
+
+            const dots = document.querySelectorAll(`#product-dots-${prodId} button`);
+            dots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('bg-gold-400', dotIndex === productSlideIndexes[prodId]);
+                dot.classList.toggle('bg-white/50', dotIndex !== productSlideIndexes[prodId]);
+            });
+        };
+
+        const changeProductSlide = (prodId, direction) => {
+            const product = PRODUCTS.find(p => p.id === prodId);
+            if (!product || !product.images || product.images.length < 2) return;
+
+            const current = productSlideIndexes[prodId] || 0;
+            setProductSlide(prodId, current + direction);
+        };
 
         // NAVIGATION VIEW SWITCHER
         function showPage(pageId) {
@@ -792,18 +1020,52 @@
             menu.classList.toggle('hidden');
         }
 
+        // SIZE SELECTION
+        function setProductSize(prodId, size, source = 'card') {
+            if (!SIZE_OPTIONS.includes(size)) return;
+            selectedProductSizes[prodId] = size;
+            document.querySelectorAll(`#card-size-options-${prodId} .size-option`).forEach(btn => btn.classList.toggle('selected', btn.innerText.trim() === size));
+            const cardLabel = document.getElementById(`card-size-label-${prodId}`);
+            if (cardLabel) cardLabel.innerText = `Size: ${size}`;
+            document.querySelectorAll('#detail-size-options .size-option').forEach(btn => btn.classList.toggle('selected', btn.innerText.trim() === size));
+            const detailLabel = document.getElementById('detail-selected-size');
+            if (detailLabel) detailLabel.innerText = `Size: ${size}`;
+            document.querySelectorAll('#checkout-size-options .size-option').forEach(btn => btn.classList.toggle('selected', btn.innerText.trim() === size));
+            const checkoutLabel = document.getElementById('checkout-selected-size');
+            if (checkoutLabel) checkoutLabel.innerText = `Size: ${size}`;
+        }
+
+        function renderSizeOptions(containerId, prodId, selectedSize) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = SIZE_OPTIONS.map(size => `
+                <button type="button" onclick="setProductSize('${prodId}', '${size}', '${containerId}')" class="size-option px-4 py-2 rounded-lg border border-gold-500/40 bg-emerald-900/60 text-gold-300 text-xs font-bold hover:bg-gold-500 hover:text-emerald-950 ${selectedSize === size ? 'selected' : ''}">${size}</button>
+            `).join('');
+        }
+
         // SEE DETAILS PAGE ACTION
         function openProductDetails(prodId) {
             const product = PRODUCTS.find(p => p.id === prodId);
             if (!product) return;
-            activeSelectedProduct = product;
-            detailQuantityVal = 1;
 
-            document.getElementById('detail-img').src = product.image;
+            const productImages = product.images || [product.image];
+            const selectedIndex = productSlideIndexes[prodId] || 0;
+            const selectedImage = productImages[selectedIndex] || productImages[0];
+            activeSelectedProduct = {
+                ...product,
+                selectedImage: selectedImage,
+                selectedImageIndex: selectedIndex
+            };
+            detailQuantityVal = 1;
+            const selectedSize = selectedProductSizes[prodId] || '';
+
+            document.getElementById('detail-img').src = selectedImage;
             document.getElementById('detail-title').innerText = product.title;
             document.getElementById('detail-price').innerText = product.priceFormatted;
             document.getElementById('detail-desc').innerText = product.description;
             document.getElementById('detail-qty').innerText = detailQuantityVal;
+            renderSizeOptions('detail-size-options', prodId, selectedSize);
+            document.getElementById('detail-selected-size').innerText = selectedSize ? `Size: ${selectedSize}` : 'Not Selected';
 
             document.getElementById('detail-buy-now-btn').onclick = () => triggerBuyNow(product.id, detailQuantityVal);
             document.getElementById('detail-add-cart-btn').onclick = () => addToCart(product.id, detailQuantityVal);
@@ -821,17 +1083,36 @@
             const product = PRODUCTS.find(p => p.id === prodId);
             if (!product) return;
 
-            activeSelectedProduct = { ...product, orderQty: qty };
+            const productImages = product.images || [product.image];
+            const selectedIndex = productSlideIndexes[prodId] || 0;
+            const selectedImage = productImages[selectedIndex] || productImages[0];
+            const selectedSize = selectedProductSizes[prodId] || '';
 
-            // Fill summary in checkout
+            if (!selectedSize) {
+                alert('Please select a size: S, M, L, XL or XXL.');
+                return;
+            }
+
+            activeSelectedProduct = {
+                ...product,
+                selectedImage: selectedImage,
+                selectedImageIndex: selectedIndex,
+                selectedSize: selectedSize,
+                orderQty: qty
+            };
+
             document.getElementById('checkout-summary').innerHTML = `
-                <img src="${product.image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
+                <img src="${selectedImage}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
                 <div>
                     <h4 class="font-serif font-bold text-white text-sm">${product.title}</h4>
                     <p class="text-xs text-gold-400 font-mono font-bold">${product.priceFormatted} × ${qty}</p>
+                    <p class="text-xs text-gold-300 mt-1">Selected Color / Variant: Image ${selectedIndex + 1}</p>
+                    <p class="text-xs text-gold-300 mt-1 font-bold">Selected Size: ${selectedSize}</p>
                 </div>
             `;
             document.getElementById('cust-quantity').value = qty;
+            renderSizeOptions('checkout-size-options', prodId, selectedSize);
+            document.getElementById('checkout-selected-size').innerText = `Size: ${selectedSize}`;
 
             showPage('checkout');
         }
@@ -849,16 +1130,36 @@
             const product = PRODUCTS.find(p => p.id === prodId);
             if (!product) return;
 
-            const existingIndex = cart.findIndex(item => item.id === prodId);
+            const productImages = product.images || [product.image];
+            const selectedIndex = productSlideIndexes[prodId] || 0;
+            const selectedImage = productImages[selectedIndex] || productImages[0];
+            const selectedSize = selectedProductSizes[prodId] || '';
+
+            if (!selectedSize) {
+                alert('Please select a size: S, M, L, XL or XXL.');
+                return;
+            }
+
+            const existingIndex = cart.findIndex(item =>
+                item.id === prodId && (item.selectedImage || item.image) === selectedImage && item.selectedSize === selectedSize
+            );
+
             if (existingIndex > -1) {
                 cart[existingIndex].quantity += qty;
             } else {
-                cart.push({ ...product, quantity: qty });
+                cart.push({
+                    ...product,
+                    image: selectedImage,
+                    selectedImage: selectedImage,
+                    selectedImageIndex: selectedIndex,
+                    selectedSize: selectedSize,
+                    quantity: qty
+                });
             }
 
             saveCart();
             updateCartBadge();
-            
+
             // Visual feedback indicator
             const btn = event.currentTarget;
             if(btn) {
@@ -902,9 +1203,11 @@
                 return `
                     <div class="glass-panel p-4 rounded-xl border border-gold-500/20 flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">
+                            <img src="${item.selectedImage || item.image}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">
                             <div>
                                 <h4 class="font-serif font-bold text-white text-xs line-clamp-1">${item.title}</h4>
+                                <p class="text-gold-300 text-[10px]">Color / Variant: Image ${(item.selectedImageIndex ?? 0) + 1}</p>
+                                <p class="text-gold-300 text-[10px] font-bold">Size: ${item.selectedSize || 'Not Selected'}</p>
                                 <p class="text-gold-400 font-mono text-xs font-bold">PKR ${itemTotal.toLocaleString()}</p>
                             </div>
                         </div>
@@ -938,11 +1241,16 @@
                 isCartCheckout: true
             };
 
+            const cartVariants = cart.map(item =>
+                `${item.title} — Image ${(item.selectedImageIndex ?? 0) + 1} — Size ${item.selectedSize || 'Not Selected'}`
+            ).join('<br>');
+
             document.getElementById('checkout-summary').innerHTML = `
                 <img src="${cart[0].image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
                 <div>
                     <h4 class="font-serif font-bold text-white text-sm">Cart Order (${cart.length} unique items)</h4>
                     <p class="text-xs text-gold-400 font-mono font-bold">${document.getElementById('cart-total-price').innerText}</p>
+                    <p class="text-xs text-gold-300 mt-1">${cartVariants}</p>
                 </div>
             `;
             showPage('checkout');
@@ -977,25 +1285,61 @@
             successState.classList.add('hidden');
 
             // 5 Seconds Timer Process
-            setTimeout(() => {
+            setTimeout(async () => {
                 spinnerState.classList.add('hidden');
                 successState.classList.remove('hidden');
+
+                const orderItems = activeSelectedProduct && activeSelectedProduct.isCartCheckout
+                    ? [...cart]
+                    : [{
+                        title: activeSelectedProduct ? activeSelectedProduct.title : 'Luxury Garment',
+                        image: activeSelectedProduct ? (activeSelectedProduct.selectedImage || activeSelectedProduct.image) : '',
+                        selectedImage: activeSelectedProduct ? (activeSelectedProduct.selectedImage || activeSelectedProduct.image) : '',
+                        selectedImageIndex: activeSelectedProduct ? (activeSelectedProduct.selectedImageIndex ?? 0) : 0,
+                        selectedSize: activeSelectedProduct ? (activeSelectedProduct.selectedSize || '') : '',
+                        priceFormatted: activeSelectedProduct ? activeSelectedProduct.priceFormatted : 'PKR 0',
+                        quantity: qty
+                    }];
 
                 // Create Order Object with Timestamp
                 const newOrder = {
                     id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
-                    items: activeSelectedProduct && activeSelectedProduct.isCartCheckout ? [...cart] : [{
-                        title: activeSelectedProduct ? activeSelectedProduct.title : 'Luxury Garment',
-                        image: activeSelectedProduct ? activeSelectedProduct.image : '',
-                        priceFormatted: activeSelectedProduct ? activeSelectedProduct.priceFormatted : 'PKR 0',
-                        quantity: qty
-                    }],
+                    items: orderItems,
                     customer: { name, city, phone, address },
                     timestamp: Date.now()
                 };
 
                 orders.unshift(newOrder);
                 localStorage.setItem('pk_store_orders', JSON.stringify(orders));
+
+                // Send order details to Formspree so owner receives selected image/color info
+                const orderDetails = orderItems.map((item, index) => {
+                    const selectedIndex = item.selectedImageIndex ?? 0;
+                    return `${index + 1}. ${item.title} | Selected Color / Variant: Image ${selectedIndex + 1} | Selected Image: ${item.selectedImage || item.image} | Selected Size: ${item.selectedSize || 'Not Selected'} | Quantity: ${item.quantity}`;
+                }).join('\n');
+
+                try {
+                    await fetch('https://formspree.io/f/mdeaoeeb', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            _subject: `New Order - ${newOrder.id}`,
+                            order_id: newOrder.id,
+                            product_selection: orderDetails,
+                            customer_name: name,
+                            city: city,
+                            phone: phone,
+                            quantity: qty,
+                            selected_size: orderItems.map(item => item.selectedSize || 'Not Selected').join(', '),
+                            address: address
+                        })
+                    });
+                } catch (error) {
+                    console.error('Formspree order submission failed:', error);
+                }
 
                 // Clear cart if it was a cart checkout
                 if (activeSelectedProduct && activeSelectedProduct.isCartCheckout) {
@@ -1075,10 +1419,11 @@
                         <div class="space-y-3">
                             ${ord.items.map(item => `
                                 <div class="flex items-center space-x-4">
-                                    <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg border border-gold-500/30">
+                                    <img src="${item.selectedImage || item.image}" class="w-12 h-12 object-cover rounded-lg border border-gold-500/30">
                                     <div>
                                         <h4 class="font-serif text-sm font-bold text-gold-100">${item.title}</h4>
                                         <p class="text-xs text-gold-400 font-mono">${item.priceFormatted} (Qty: ${item.quantity || 1})</p>
+                                        <p class="text-xs text-gold-300 font-bold">Size: ${item.selectedSize || 'Not Selected'} | Color/Variant: Image ${(item.selectedImageIndex ?? 0) + 1}</p>
                                     </div>
                                 </div>
                             `).join('')}
@@ -1113,6 +1458,26 @@
                 icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
             }
         }
+        // SIZE CHART MODAL
+function openSizeChart() {
+    const modal = document.getElementById('size-chart-modal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeSizeChart(event) {
+    const modal = document.getElementById('size-chart-modal');
+
+    if (!modal) return;
+
+    // Close when clicking X or outside the chart
+    if (!event || event.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
     </script>
 </body>
 </html>
