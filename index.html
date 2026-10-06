@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -351,6 +352,9 @@
                                     <button onclick="showPage('orders')" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold-500/60 bg-emerald-900/50 text-gold-300 hover:bg-gold-500/10 transition-all uppercase tracking-wider text-sm font-semibold">
                                         Track Orders
                                     </button>
+                                    <button onclick="showPage('flash-sale')" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-gold-500 bg-gold-500 text-emerald-950 hover:bg-gold-300 transition-all uppercase tracking-wider text-sm font-bold shadow-lg">
+                                        <i class="fa-solid fa-bolt mr-2"></i>Flash Sale
+                                    </button>
                                 </div>
                             </div>
 
@@ -502,6 +506,29 @@
                 </section>
 
             </div>
+
+                <!-- FLASH SALE PAGE / VIEW -->
+                <div id="page-flash-sale" class="page-view hidden py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-14">
+                        <button onclick="showPage('home')" class="mb-8 inline-flex items-center space-x-2 text-gold-400 hover:text-gold-300 font-semibold text-sm">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Back to Collection</span>
+                        </button>
+                        <div class="flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt text-gold-400"></i>
+                            <span class="text-gold-400 text-xs font-semibold tracking-widest uppercase">Limited Time Offers</span>
+                            <i class="fa-solid fa-bolt text-gold-400"></i>
+                        </div>
+                        <h2 class="font-serif text-4xl sm:text-5xl font-bold gold-gradient-text mt-2">Flash Sale</h2>
+                        <p class="text-gold-100/70 text-sm mt-3">Tap any offer below to open that product and place your order.</p>
+                        <div class="w-24 h-1 bg-gold-500 mx-auto mt-5 rounded-full"></div>
+                    </div>
+
+                    <div id="flash-sale-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Flash sale cards are inserted by JavaScript -->
+                    </div>
+                </div>
+
 
             <!-- VIEW 2: PRODUCT DETAILS PAGE (FULL DETAILED VIEW) -->
             <div id="page-details" class="page-view hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -879,6 +906,23 @@
            
         ];
 
+        // FLASH SALE PRODUCTS
+        // The numbers from the reference design (315 / 267 / 480) are intentionally not used.
+        const FLASH_SALE_PRODUCTS = [
+            {
+                productId: 'prod-1',
+                offer: 'Flat Rs. 1000'
+            },
+            {
+                productId: 'prod-2',
+                offer: 'Flat Rs. 2000'
+            },
+            {
+                productId: 'prod-3',
+                offer: 'Flat Rs. 500'
+            }
+        ];
+
         // Global State Variables
         let cart = JSON.parse(localStorage.getItem('pk_store_cart') || '[]');
         let orders = JSON.parse(localStorage.getItem('pk_store_orders') || '[]');
@@ -901,6 +945,7 @@
                     preloader.style.display = 'none';
                     mainContent.classList.remove('hidden');
                     renderProducts();
+                    renderFlashSale();
                     updateCartBadge();
                 }, 700);
             }, 4500);
@@ -983,6 +1028,46 @@
                     </div>
                 </div>
             `}).join('');
+        }
+
+        // RENDER FLASH SALE CARDS
+        function renderFlashSale() {
+            const grid = document.getElementById('flash-sale-grid');
+            if (!grid) return;
+
+            grid.innerHTML = FLASH_SALE_PRODUCTS.map((sale, index) => {
+                const product = PRODUCTS.find(p => p.id === sale.productId);
+                if (!product) return '';
+
+                return `
+                    <button type="button"
+                        onclick="openProductDetails('${product.id}')"
+                        class="text-left glass-panel rounded-2xl overflow-hidden gold-border-glow group cursor-pointer hover:-translate-y-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gold-500">
+                        <div class="relative overflow-hidden h-72">
+                            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 bg-gold-500 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                                Flash Sale
+                            </span>
+                            <span class="absolute top-4 right-4 bg-emerald-950/90 text-gold-300 border border-gold-500/50 text-xs font-bold px-3 py-1.5 rounded-full">
+                                ${sale.offer}
+                            </span>
+                        </div>
+
+                        <div class="p-6">
+                            <p class="text-gold-400 text-xs font-bold uppercase tracking-widest mb-2">${sale.offer}</p>
+                            <h3 class="font-serif text-xl font-bold text-white group-hover:text-gold-400 transition-colors">${product.title}</h3>
+                            <p class="text-gold-100/70 text-xs mt-2 line-clamp-2">${product.description}</p>
+                            <div class="mt-5 flex items-center justify-between">
+                                <span class="text-gold-400 font-bold font-mono">${product.priceFormatted}</span>
+                                <span class="text-gold-300 text-xs font-bold uppercase tracking-wider">
+                                    View Product <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </button>
+                `;
+            }).join('');
         }
 
         // MULTI-IMAGE SLIDER FOR CARDS 9-12
