@@ -472,7 +472,7 @@
                             <p class="text-gold-100/70 text-sm mt-2">Have inquiries regarding garments, custom fits or boutique orders?</p>
                         </div>
 
-                        <form action="https://formspree.io/f/mdeaoeeb" method="POST" class="glass-panel p-8 rounded-2xl border border-gold-500/30 space-y-6">
+                        <form action="https://formspree.io/f/mjyggyqq" method="POST" class="glass-panel p-8 rounded-2xl border border-gold-500/30 space-y-6">
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-xs font-semibold text-gold-300 uppercase tracking-wider mb-2">Your Name</label>
@@ -761,6 +761,7 @@
                 price: 1399,
                 priceFormatted: 'PKR 1399',
                 image: 'man jersey track suit.jpeg',
+                colors: ['Black'],
                 description: 'Mens Black Graphic Hoodie & Pants set Casual Sporty.'
             },
             {
@@ -769,6 +770,7 @@
                 price: 999,
                 priceFormatted: 'PKR 999',
                 image: 'janan gold edition.jpeg',
+                colors: ['Gold'],
                 description: 'Janan Gold perfume from j. for Men .'
             },
             {
@@ -777,6 +779,7 @@
                 price: 2799,
                 priceFormatted: 'PKR 2,799',
                 image: 'tubler watch.jpeg',
+                colors: ['black'],
                 description: 'tubuler premium and fashion watch.'
             },
             
@@ -786,6 +789,7 @@
                 price: 1899,
                 priceFormatted: 'PKR 1,899',
                 image: 'bmw shirt.jpeg',
+                colors: ['White / Black'],
                 description: 'Stylish Black And White BMW inspired T-shirt and trouser.'
             },
             {
@@ -794,6 +798,7 @@
                 price: 1649,
                 priceFormatted: 'PKR 1,649',
                 image: 'janan platinum.jpeg',
+                colors: ['Platinum'],
                 description: 'Modern Citrus Spicy And Insane Mens Perfume.'
             },
             {
@@ -802,6 +807,7 @@
                 price: 1399,
                 priceFormatted: 'PKR 1,399',
                 image: 'pubg track suit.jpeg',
+                colors: ['Black'],
                 description: 'Modern Two Pc Mens Trcak Suit Set.'
             },
             {
@@ -810,6 +816,7 @@
                 price: 1699,
                 priceFormatted: 'PKR 1,699',
                 image: 'flame.jpeg',
+                colors: ['Blue'],
                 description: 'Men Flame Print Track Suit Blue .'
             },
              {
@@ -818,6 +825,7 @@
                 price: 1399,
                 priceFormatted: 'PKR 1,399',
                 image: 'bts track suit.jpeg',
+                colors: ['Green'],
                 description: 'BTS Green Track Suit Set.'
             },
              {
@@ -826,6 +834,7 @@
                 price: 1399,
                 priceFormatted: 'PKR 1,399',
                 image: 'control.jpeg',
+                colors: ['Black'],
                 description: 'Premium Men Control Printed Suit.'
             },
             {
@@ -835,15 +844,17 @@
                 priceFormatted: 'PKR 2,299',
                 image: 'card9-1.jpg',
                 images: ['vision.jpeg', 'cat.jpeg', 'naruto.jpeg', 'bacha.jpeg'],
+                colors: ['Black vision', 'black cat', 'black naruto', 'black boy'],
                 description: 'Men Black Hoodie & pants Set Casual Sporty.'
             },
             {
                 id: 'prod-11',
                 title: 'Black Hoodie',
-                price: 3699,
-                priceFormatted: 'PKR 3,699',
+                price: 369,
+                priceFormatted: 'PKR 369',
                 image: 'card10-1.jpg',
                 images: ['s1.jpeg', 's2.jpeg', 's3.jpeg'],
+                colors: ['Black', 'grey', 'white'],
                 description: 'Men Black Graphic Hoodie & Pant Set Casual Sporty.'
             },
             {
@@ -852,6 +863,7 @@
                 price: 1600,
                 priceFormatted: 'PKR 1,600',
                 image: 'zipper.jpeg',
+                colors: ['Black / White'],
                 description: 'Men Black & White Printed Fleece Zipper Jacket.'
             },
             {
@@ -861,6 +873,7 @@
                 priceFormatted: 'PKR 2,799',
                 image: 'card11-1.jpg',
                 images: ['belive1.jpeg', 'belive2.jpeg', 'belive3.jpeg', 'belive4.jpeg','belive5.jpeg','belive6.jpeg','belive7.jpeg'],
+                colors: ['Black', 'yellow', 'white', 'red', 'grey', 'black with trouser', 'blue'],
                 description: 'Men Waflle Long Sleeve Track Suit.'
             }
            
@@ -1051,10 +1064,12 @@
             const productImages = product.images || [product.image];
             const selectedIndex = productSlideIndexes[prodId] || 0;
             const selectedImage = productImages[selectedIndex] || productImages[0];
+            const selectedColor = product.colors?.[selectedIndex] || 'Not Specified';
             activeSelectedProduct = {
                 ...product,
                 selectedImage: selectedImage,
-                selectedImageIndex: selectedIndex
+                selectedImageIndex: selectedIndex,
+                selectedColor: selectedColor
             };
             detailQuantityVal = 1;
             const selectedSize = selectedProductSizes[prodId] || '';
@@ -1086,6 +1101,7 @@
             const productImages = product.images || [product.image];
             const selectedIndex = productSlideIndexes[prodId] || 0;
             const selectedImage = productImages[selectedIndex] || productImages[0];
+            const selectedColor = product.colors?.[selectedIndex] || 'Not Specified';
             const selectedSize = selectedProductSizes[prodId] || '';
 
             if (!selectedSize) {
@@ -1097,6 +1113,7 @@
                 ...product,
                 selectedImage: selectedImage,
                 selectedImageIndex: selectedIndex,
+                selectedColor: selectedColor,
                 selectedSize: selectedSize,
                 orderQty: qty
             };
@@ -1106,7 +1123,7 @@
                 <div>
                     <h4 class="font-serif font-bold text-white text-sm">${product.title}</h4>
                     <p class="text-xs text-gold-400 font-mono font-bold">${product.priceFormatted} × ${qty}</p>
-                    <p class="text-xs text-gold-300 mt-1">Selected Color / Variant: Image ${selectedIndex + 1}</p>
+                    <p class="text-xs text-gold-300 mt-1">Selected Color: ${selectedColor}</p>
                     <p class="text-xs text-gold-300 mt-1 font-bold">Selected Size: ${selectedSize}</p>
                 </div>
             `;
@@ -1133,6 +1150,7 @@
             const productImages = product.images || [product.image];
             const selectedIndex = productSlideIndexes[prodId] || 0;
             const selectedImage = productImages[selectedIndex] || productImages[0];
+            const selectedColor = product.colors?.[selectedIndex] || 'Not Specified';
             const selectedSize = selectedProductSizes[prodId] || '';
 
             if (!selectedSize) {
@@ -1141,7 +1159,7 @@
             }
 
             const existingIndex = cart.findIndex(item =>
-                item.id === prodId && (item.selectedImage || item.image) === selectedImage && item.selectedSize === selectedSize
+                item.id === prodId && (item.selectedImage || item.image) === selectedImage && item.selectedColor === selectedColor && item.selectedSize === selectedSize
             );
 
             if (existingIndex > -1) {
@@ -1152,6 +1170,7 @@
                     image: selectedImage,
                     selectedImage: selectedImage,
                     selectedImageIndex: selectedIndex,
+                    selectedColor: selectedColor,
                     selectedSize: selectedSize,
                     quantity: qty
                 });
@@ -1206,7 +1225,7 @@
                             <img src="${item.selectedImage || item.image}" class="w-14 h-14 object-cover rounded-lg border border-gold-500/30">
                             <div>
                                 <h4 class="font-serif font-bold text-white text-xs line-clamp-1">${item.title}</h4>
-                                <p class="text-gold-300 text-[10px]">Color / Variant: Image ${(item.selectedImageIndex ?? 0) + 1}</p>
+                                <p class="text-gold-300 text-[10px]">Color: ${item.selectedColor || 'Not Specified'}</p>
                                 <p class="text-gold-300 text-[10px] font-bold">Size: ${item.selectedSize || 'Not Selected'}</p>
                                 <p class="text-gold-400 font-mono text-xs font-bold">PKR ${itemTotal.toLocaleString()}</p>
                             </div>
@@ -1242,7 +1261,7 @@
             };
 
             const cartVariants = cart.map(item =>
-                `${item.title} — Image ${(item.selectedImageIndex ?? 0) + 1} — Size ${item.selectedSize || 'Not Selected'}`
+                `${item.title} — Color ${item.selectedColor || 'Not Specified'} — Size ${item.selectedSize || 'Not Selected'}`
             ).join('<br>');
 
             document.getElementById('checkout-summary').innerHTML = `
@@ -1296,6 +1315,7 @@
                         image: activeSelectedProduct ? (activeSelectedProduct.selectedImage || activeSelectedProduct.image) : '',
                         selectedImage: activeSelectedProduct ? (activeSelectedProduct.selectedImage || activeSelectedProduct.image) : '',
                         selectedImageIndex: activeSelectedProduct ? (activeSelectedProduct.selectedImageIndex ?? 0) : 0,
+                        selectedColor: activeSelectedProduct ? (activeSelectedProduct.selectedColor || '') : '',
                         selectedSize: activeSelectedProduct ? (activeSelectedProduct.selectedSize || '') : '',
                         priceFormatted: activeSelectedProduct ? activeSelectedProduct.priceFormatted : 'PKR 0',
                         quantity: qty
@@ -1314,12 +1334,11 @@
 
                 // Send order details to Formspree so owner receives selected image/color info
                 const orderDetails = orderItems.map((item, index) => {
-                    const selectedIndex = item.selectedImageIndex ?? 0;
-                    return `${index + 1}. ${item.title} | Selected Color / Variant: Image ${selectedIndex + 1} | Selected Image: ${item.selectedImage || item.image} | Selected Size: ${item.selectedSize || 'Not Selected'} | Quantity: ${item.quantity}`;
+                    return `${index + 1}. ${item.title} | Selected Color: ${item.selectedColor || 'Not Specified'} | Selected Image: ${item.selectedImage || item.image} | Selected Size: ${item.selectedSize || 'Not Selected'} | Quantity: ${item.quantity}`;
                 }).join('\n');
 
                 try {
-                    await fetch('https://formspree.io/f/mdeaoeeb', {
+                    await fetch('https://formspree.io/f/mjyggyqq', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1333,6 +1352,7 @@
                             city: city,
                             phone: phone,
                             quantity: qty,
+                            selected_color: orderItems.map(item => item.selectedColor || 'Not Specified').join(', '),
                             selected_size: orderItems.map(item => item.selectedSize || 'Not Selected').join(', '),
                             address: address
                         })
