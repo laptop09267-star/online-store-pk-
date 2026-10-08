@@ -726,10 +726,18 @@
                         <!-- Populated dynamically -->
                     </div>
 
-                    <!-- Drawer Footer with Total & Proceed to Checkout -->
-                    <div class="pt-6 border-t border-gold-500/20 space-y-4">
-                        <div class="flex justify-between items-center text-lg font-bold">
-                            <span class="text-gold-300">Total Price:</span>
+                    <!-- Drawer Footer with Subtotal + Delivery + Grand Total -->
+                    <div class="pt-6 border-t border-gold-500/20 space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gold-300">Subtotal:</span>
+                            <span id="cart-subtotal-price" class="text-gold-100 font-mono">PKR 0</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gold-300">Delivery Charges:</span>
+                            <span id="cart-delivery-price" class="text-gold-400 font-mono">PKR 300</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lg font-bold pt-2 border-t border-gold-500/10">
+                            <span class="text-gold-300">Grand Total:</span>
                             <span id="cart-total-price" class="gold-gradient-text font-mono">PKR 0</span>
                         </div>
 
@@ -877,8 +885,8 @@
             {
                 id: 'prod-11',
                 title: 'Black Hoodie',
-                price: 369,
-                priceFormatted: 'PKR 369',
+                price: 3699,
+                priceFormatted: 'PKR 3699',
                 image: 'card10-1.jpg',
                 images: ['s1.jpeg', 's2.jpeg', 's3.jpeg'],
                 colors: ['Black', 'grey', 'white'],
@@ -915,11 +923,11 @@
             },
             {
                 productId: 'prod-2',
-                offer: 'Flat Rs. 2000'
+                offer: 'Flat Rs. 1000'
             },
             {
                 productId: 'prod-3',
-                offer: 'Flat Rs. 500'
+                offer: 'Flat Rs. 1000'
             }
         ];
 
@@ -931,7 +939,8 @@
         let timeOffsetHours = parseInt(localStorage.getItem('pk_time_offset_hours') || '0');
         let selectedProductImages = {};
         const SIZE_OPTIONS = ['S', 'M', 'L', 'XL', 'XXL'];
-        const selectedProductSizes = {};
+const DELIVERY_CHARGES = 300;
+const selectedProductSizes = {};
 
         // INITIALIZE APP ON PAGE LOAD
         window.addEventListener('load', () => {
@@ -1194,20 +1203,29 @@
                 return;
             }
 
+            const subtotal = product.price * qty;
+            const deliveryCharges = DELIVERY_CHARGES;
+            const grandTotal = subtotal + deliveryCharges;
+
             activeSelectedProduct = {
                 ...product,
                 selectedImage: selectedImage,
                 selectedImageIndex: selectedIndex,
                 selectedColor: selectedColor,
                 selectedSize: selectedSize,
-                orderQty: qty
+                orderQty: qty,
+                checkoutSubtotal: subtotal,
+                deliveryCharges: deliveryCharges,
+                checkoutTotal: grandTotal
             };
 
             document.getElementById('checkout-summary').innerHTML = `
                 <img src="${selectedImage}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
-                <div>
+                <div class="flex-1">
                     <h4 class="font-serif font-bold text-white text-sm">${product.title}</h4>
-                    <p class="text-xs text-gold-400 font-mono font-bold">${product.priceFormatted} × ${qty}</p>
+                    <p class="text-xs text-gold-400 font-mono font-bold">Product Total: PKR ${subtotal.toLocaleString()}</p>
+                    <p class="text-xs text-gold-300 mt-1">Delivery Charges: PKR ${deliveryCharges.toLocaleString()}</p>
+                    <p class="text-sm text-gold-100 mt-2 font-bold">Grand Total: PKR ${grandTotal.toLocaleString()}</p>
                     <p class="text-xs text-gold-300 mt-1">Selected Color: ${selectedColor}</p>
                     <p class="text-xs text-gold-300 mt-1 font-bold">Selected Size: ${selectedSize}</p>
                 </div>
@@ -1285,8 +1303,14 @@
             }
         }
 
+        function calculateCartSubtotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
         function renderCartItems() {
             const container = document.getElementById('cart-items-list');
+            const subtotalEl = document.getElementById('cart-subtotal-price');
+            const deliveryEl = document.getElementById('cart-delivery-price');
             const totalEl = document.getElementById('cart-total-price');
 
             if (cart.length === 0) {
@@ -1296,14 +1320,18 @@
                         <p class="text-sm">Your Trolley is empty</p>
                     </div>
                 `;
+                if (subtotalEl) subtotalEl.innerText = 'PKR 0';
+                if (deliveryEl) deliveryEl.innerText = 'PKR 0';
                 totalEl.innerText = 'PKR 0';
                 return;
             }
 
-            let grandTotal = 0;
+            const subtotal = calculateCartSubtotal();
+            const deliveryCharges = DELIVERY_CHARGES;
+            const grandTotal = subtotal + deliveryCharges;
+
             container.innerHTML = cart.map((item, idx) => {
                 const itemTotal = item.price * item.quantity;
-                grandTotal += itemTotal;
                 return `
                     <div class="glass-panel p-4 rounded-xl border border-gold-500/20 flex items-center justify-between">
                         <div class="flex items-center space-x-3">
@@ -1326,6 +1354,8 @@
                 `;
             }).join('');
 
+            if (subtotalEl) subtotalEl.innerText = `PKR ${subtotal.toLocaleString()}`;
+            if (deliveryEl) deliveryEl.innerText = `PKR ${deliveryCharges.toLocaleString()}`;
             totalEl.innerText = `PKR ${grandTotal.toLocaleString()}`;
         }
 
@@ -1337,12 +1367,19 @@
             toggleCartDrawer();
 
             // Set cart items as current checkout payload
+            const subtotal = calculateCartSubtotal();
+            const deliveryCharges = DELIVERY_CHARGES;
+            const grandTotal = subtotal + deliveryCharges;
+
             activeSelectedProduct = {
                 id: 'cart-checkout',
                 title: `${cart.length} Garment Items in Trolley`,
-                priceFormatted: document.getElementById('cart-total-price').innerText,
+                priceFormatted: `PKR ${grandTotal.toLocaleString()}`,
                 image: cart[0].image,
-                isCartCheckout: true
+                isCartCheckout: true,
+                checkoutSubtotal: subtotal,
+                deliveryCharges: deliveryCharges,
+                checkoutTotal: grandTotal
             };
 
             const cartVariants = cart.map(item =>
@@ -1351,9 +1388,11 @@
 
             document.getElementById('checkout-summary').innerHTML = `
                 <img src="${cart[0].image}" class="w-16 h-16 object-cover rounded-lg border border-gold-500/40">
-                <div>
+                <div class="flex-1">
                     <h4 class="font-serif font-bold text-white text-sm">Cart Order (${cart.length} unique items)</h4>
-                    <p class="text-xs text-gold-400 font-mono font-bold">${document.getElementById('cart-total-price').innerText}</p>
+                    <p class="text-xs text-gold-400 font-mono font-bold">Products Total: PKR ${subtotal.toLocaleString()}</p>
+                    <p class="text-xs text-gold-300 mt-1">Delivery Charges: PKR ${deliveryCharges.toLocaleString()}</p>
+                    <p class="text-sm text-gold-100 mt-2 font-bold">Grand Total: PKR ${grandTotal.toLocaleString()}</p>
                     <p class="text-xs text-gold-300 mt-1">${cartVariants}</p>
                 </div>
             `;
@@ -1406,10 +1445,20 @@
                         quantity: qty
                     }];
 
+                // Calculate final amount: products subtotal + fixed PKR 300 delivery
+                const checkoutSubtotal = activeSelectedProduct?.checkoutSubtotal ?? (
+                    orderItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0)
+                );
+                const deliveryCharges = DELIVERY_CHARGES;
+                const checkoutTotal = checkoutSubtotal + deliveryCharges;
+
                 // Create Order Object with Timestamp
                 const newOrder = {
                     id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
                     items: orderItems,
+                    subtotal: checkoutSubtotal,
+                    deliveryCharges: deliveryCharges,
+                    total: checkoutTotal,
                     customer: { name, city, phone, address },
                     timestamp: Date.now()
                 };
@@ -1439,6 +1488,9 @@
                             quantity: qty,
                             selected_color: orderItems.map(item => item.selectedColor || 'Not Specified').join(', '),
                             selected_size: orderItems.map(item => item.selectedSize || 'Not Selected').join(', '),
+                            subtotal: `PKR ${checkoutSubtotal.toLocaleString()}`,
+                            delivery_charges: `PKR ${deliveryCharges.toLocaleString()}`,
+                            total_bill: `PKR ${checkoutTotal.toLocaleString()}`,
                             address: address
                         })
                     });
@@ -1534,9 +1586,17 @@
                             `).join('')}
                         </div>
 
-                        <div class="text-[11px] text-gold-100/60 pt-2 border-t border-gold-500/10 flex justify-between">
-                            <span>Address: ${ord.customer.address}</span>
-                            <span>Phone: ${ord.customer.phone}</span>
+                        <div class="text-[11px] text-gold-100/60 pt-2 border-t border-gold-500/10 space-y-1">
+                            <div class="flex justify-between gap-4">
+                                <span>Address: ${ord.customer.address}</span>
+                                <span>Phone: ${ord.customer.phone}</span>
+                            </div>
+                            ${ord.total !== undefined ? `
+                            <div class="flex justify-between text-gold-300 font-semibold pt-1">
+                                <span>Products: PKR ${(ord.subtotal || 0).toLocaleString()}</span>
+                                <span>Delivery: PKR ${(ord.deliveryCharges || DELIVERY_CHARGES).toLocaleString()}</span>
+                                <span>Grand Total: PKR ${ord.total.toLocaleString()}</span>
+                            </div>` : ''}
                         </div>
                     </div>
                 `;
@@ -1584,5 +1644,5 @@ function closeSizeChart(event) {
     }
 }
     </script>
-</body>
+</body> 
 </html>
